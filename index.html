@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08111f">
+  <title>Matchup</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <button class="marcaBoton" data-ir="inicio">🏆 MATCHUP</button>
+    <div class="topAcciones">
+      <button id="botonAyuda" class="iconButton">❓</button>
+      <button id="avatarHeader" class="avatar">👤</button>
+    </div>
+  </header>
+
+  <main id="paginaInicio" class="pagina activa">
+    <section class="hero">
+      <span class="miniTitulo">MATCHUP SPORTS</span>
+      <h1>Tu próximo partido<br>empieza aquí.</h1>
+      <p id="saludoUsuario">Encuentra rivales, compañeros y deportistas compatibles contigo.</p>
+      <button class="botonPrincipal" data-ir="buscar">🔎 Encontrar un Match</button>
+    </section>
+
+    <section class="tarjeta perfilResumen">
+      <div>
+        <small>TU PERFIL</small>
+        <h2 id="nombreResumen">Crea tu perfil</h2>
+        <p id="deporteResumen">Cuéntanos qué deporte practicas.</p>
+      </div>
+      <div id="ratingResumen" class="ratingGrande">—</div>
+    </section>
+
+    <section>
+      <div class="tituloSeccion"><h2>🔥 Recomendados</h2><span>Para ti</span></div>
+      <div id="recomendadosInicio"></div>
+    </section>
+
+    <section>
+      <div class="tituloSeccion"><h2>📊 Tu actividad</h2></div>
+      <div class="statsGrid">
+        <div class="stat"><strong id="statPartidos">0</strong><span>Encuentros</span></div>
+        <div class="stat"><strong id="statVictorias">0</strong><span>Victorias</span></div>
+        <div class="stat"><strong id="statReputacion">—</strong><span>Reputación</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="tituloSeccion">
+        <h2>🛡️ Tus equipos</h2>
+        <button class="linkButton" data-ir="equipos">Gestionar</button>
+      </div>
+      <div id="equiposInicio"></div>
+    </section>
+  </main>
+
+  <main id="paginaBuscar" class="pagina">
+    <section class="encabezadoPagina">
+      <span class="miniTitulo">DESCUBRIR</span>
+      <h1>Buscar Match</h1>
+      <p>Matchup adaptará las opciones según el deporte seleccionado.</p>
+    </section>
+
+    <section class="tarjeta formulario">
+      <label for="deporte">Deporte</label>
+      <select id="deporte"><option value="">Selecciona un deporte</option></select>
+
+      <div id="bloqueModalidad" class="oculto">
+        <label for="modalidad">Modalidad</label>
+        <select id="modalidad"></select>
+      </div>
+
+      <div id="bloqueTipoBusqueda" class="oculto">
+        <label for="tipoBusqueda">¿Qué quieres encontrar?</label>
+        <select id="tipoBusqueda"></select>
+      </div>
+
+      <div id="bloqueEquipoBusqueda" class="oculto">
+        <label for="equipoBusqueda">¿Con qué equipo?</label>
+        <select id="equipoBusqueda"></select>
+        <div id="avisoEquipo" class="aviso"></div>
+      </div>
+
+      <label for="nivel">Nivel</label>
+      <select id="nivel">
+        <option value="">Selecciona nivel</option>
+        <option value="1">Principiante</option>
+        <option value="2">Recreativo</option>
+        <option value="3">Intermedio</option>
+        <option value="4">Competitivo</option>
+        <option value="5">Avanzado</option>
+      </select>
+
+      <label for="zona">Zona</label>
+      <select id="zona">
+        <option value="">Selecciona zona</option>
+        <option>Coquimbo</option><option>La Serena</option><option>Peñuelas</option>
+        <option>Tierras Blancas</option><option>Sindempart</option>
+      </select>
+
+      <label for="horario">Horario</label>
+      <select id="horario">
+        <option value="">Selecciona horario</option>
+        <option value="mañana">Mañana</option><option value="tarde">Tarde</option><option value="noche">Noche</option>
+      </select>
+
+      <button id="buscar" class="botonPrincipal">✨ Encontrar compatibles</button>
+      <button id="guardarBusqueda" class="botonSecundario">🔔 Guardar búsqueda</button>
+    </section>
+
+    <section id="resultados" class="oculto">
+      <div class="tituloSeccion">
+        <div><h2>Matches encontrados</h2><span id="resumenBusqueda"></span></div>
+        <div id="cantidadResultados" class="contador">0</div>
+      </div>
+      <div id="listaResultados"></div>
+    </section>
+  </main>
+
+  <main id="paginaActividad" class="pagina">
+    <section class="encabezadoPagina">
+      <span class="miniTitulo">HISTORIAL</span>
+      <h1>Tu actividad</h1>
+      <p>Desafíos, encuentros y resultados.</p>
+    </section>
+    <section class="statsGrid">
+      <div class="stat"><strong id="actividadJugados">0</strong><span>Jugados</span></div>
+      <div class="stat"><strong id="actividadGanados">0</strong><span>Ganados</span></div>
+      <div class="stat"><strong id="actividadRatio">0%</strong><span>Rendimiento</span></div>
+    </section>
+    <section>
+      <div class="tituloSeccion"><h2>Historial reciente</h2></div>
+      <div id="historialActividad"></div>
+    </section>
+  </main>
+
+  <main id="paginaEquipos" class="pagina">
+    <section class="encabezadoPagina">
+      <span class="miniTitulo">CLUBHOUSE</span>
+      <h1>Mis equipos</h1>
+      <p>Crea y administra los equipos con los que participas en Matchup.</p>
+    </section>
+
+    <section class="tarjeta">
+      <div class="tituloTarjeta"><div><small>NUEVO EQUIPO</small><h2>🛡️ Crear equipo</h2></div></div>
+
+      <label for="nombreEquipo">Nombre del equipo</label>
+      <input id="nombreEquipo" type="text" placeholder="Ej: Los Kraken">
+
+      <label for="deporteEquipo">Deporte</label>
+      <select id="deporteEquipo"><option value="">Selecciona deporte</option></select>
+
+      <div id="bloqueModalidadEquipo" class="oculto">
+        <label for="modalidadEquipo">Modalidad</label>
+        <select id="modalidadEquipo"></select>
+      </div>
+
+      <label for="zonaEquipo">Zona</label>
+      <select id="zonaEquipo">
+        <option value="">Selecciona zona</option>
+        <option>Coquimbo</option><option>La Serena</option><option>Peñuelas</option>
+        <option>Tierras Blancas</option><option>Sindempart</option>
+      </select>
+
+      <label for="nivelEquipo">Nivel del equipo</label>
+      <select id="nivelEquipo">
+        <option value="1">Principiante</option><option value="2">Recreativo</option>
+        <option value="3" selected>Intermedio</option><option value="4">Competitivo</option><option value="5">Avanzado</option>
+      </select>
+
+      <label for="cupoEquipo">Cupos del equipo</label>
+      <input id="cupoEquipo" type="number" min="2" max="30" value="7">
+
+      <button id="crearEquipo" class="botonPrincipal">🛡️ Crear equipo</button>
+    </section>
+
+    <section>
+      <div class="tituloSeccion"><h2>Equipos registrados</h2><span id="cantidadEquipos">0 equipos</span></div>
+      <div id="listaEquipos"></div>
+    </section>
+  </main>
+
+  <main id="paginaPerfil" class="pagina">
+    <section class="perfilCabecera">
+      <div class="avatarGrande">🏃</div>
+      <h1 id="perfilNombre">Deportista</h1>
+      <p id="perfilUbicacion">Completa tu perfil</p>
+      <div class="insignias">
+        <span>⭐ <b id="perfilReputacion">5.0</b></span>
+        <span>🏆 <b id="perfilRating">1200</b></span>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Tu perfil deportivo</h2>
+
+      <label for="nombrePerfil">Nombre</label>
+      <input id="nombrePerfil" type="text" placeholder="Ej: Nicolás">
+
+      <label for="ciudadPerfil">Ciudad</label>
+      <select id="ciudadPerfil">
+        <option value="">Selecciona ciudad</option>
+        <option>Coquimbo</option><option>La Serena</option><option>Ovalle</option><option>Otra</option>
+      </select>
+
+      <label for="deportePerfil">Deporte principal</label>
+      <select id="deportePerfil"><option value="">Selecciona deporte</option></select>
+
+      <div id="modalidadPerfilBloque" class="oculto">
+        <label for="modalidadPerfil">Modalidad</label>
+        <select id="modalidadPerfil"></select>
+      </div>
+
+      <label for="nivelPerfil">Nivel declarado</label>
+      <select id="nivelPerfil">
+        <option value="1">Principiante</option><option value="2">Recreativo</option>
+        <option value="3">Intermedio</option><option value="4">Competitivo</option><option value="5">Avanzado</option>
+      </select>
+
+      <button id="guardarPerfil" class="botonPrincipal">💾 Guardar perfil</button>
+    </section>
+
+    <section class="tarjeta"><h2>🏅 Ficha deportiva</h2><div id="fichaDeportiva"></div></section>
+    <section class="tarjeta"><h2>❤️ Favoritos</h2><div id="listaFavoritos"></div></section>
+  </main>
+
+  <main id="paginaAyuda" class="pagina">
+    <section class="encabezadoPagina">
+      <span class="miniTitulo">CENTRO DE AYUDA</span>
+      <h1>¿Cómo funciona Matchup?</h1>
+      <p>Desde crear tu perfil hasta disputar tu próximo encuentro.</p>
+    </section>
+
+    <section class="manualIntro">
+      <div class="manualIcono">🏆</div>
+      <div>
+        <strong>Bienvenido a Matchup</strong>
+        <p>Una plataforma para conectar deportistas, equipos, rivales y compañeros.</p>
+      </div>
+    </section>
+
+    <section class="manual">
+      <details open><summary>👤 1. Crea tu perfil</summary><p>Ingresa tu nombre, ciudad, deporte principal, modalidad y nivel.</p><p>Tu perfil permite que Matchup personalice las búsquedas y recomendaciones.</p></details>
+      <details><summary>🛡️ 2. Crea tu equipo</summary><p>En Mis equipos puedes registrar uno o varios equipos.</p><p>El creador queda registrado como capitán. Cada equipo mantiene deporte, modalidad, nivel, integrantes, rating y reputación.</p></details>
+      <details><summary>👥 3. Administra jugadores</summary><p>Desde la ficha del equipo puedes incorporar integrantes y eliminarlos cuando sea necesario.</p><p>Matchup muestra los jugadores actuales y los cupos disponibles.</p></details>
+      <details><summary>🔎 4. Busca un Match</summary><p>Selecciona deporte y modalidad. Matchup cambia automáticamente las acciones disponibles.</p><p>En fútbol puedes buscar equipos rivales o jugadores. En boxeo puedes buscar sparring. En SUP puedes buscar compañeros o salidas.</p></details>
+      <details><summary>⚔️ 5. Compite como equipo</summary><p>Cuando una búsqueda requiere un equipo, Matchup te pedirá seleccionar con cuál de tus equipos participarás.</p><p>Solo aparecerán equipos compatibles con el deporte y modalidad seleccionados.</p></details>
+      <details><summary>✨ 6. Compatibilidad</summary><p>Los resultados se ordenan utilizando nivel, zona, horario, reputación y distancia.</p><p>Un porcentaje mayor representa una mejor compatibilidad para esa búsqueda.</p></details>
+      <details><summary>📊 7. Actividad y resultados</summary><p>Los desafíos enviados aparecen en Actividad.</p><p>Los resultados confirmados formarán el historial deportivo y posteriormente podrán modificar el rating.</p></details>
+      <details><summary>🏆 8. Rating y reputación</summary><p>El rating representa rendimiento deportivo.</p><p>La reputación representa comportamiento, cumplimiento y confiabilidad.</p></details>
+      <details><summary>❤️ 9. Favoritos</summary><p>Puedes guardar deportistas o equipos para encontrarlos fácilmente después.</p></details>
+      <details><summary>🔒 10. Privacidad</summary><p>Este prototipo utiliza datos almacenados localmente en tu dispositivo.</p><p>En una futura versión, Matchup mostrará ubicación aproximada durante la búsqueda y reservará información más precisa para encuentros acordados.</p></details>
+    </section>
+  </main>
+
+  <div id="onboarding" class="modalFondo oculto">
+    <div class="modal">
+      <div class="modalLogo">🏆</div>
+      <span class="miniTitulo">BIENVENIDO</span>
+      <h2>Esto es Matchup.</h2>
+      <p>Encuentra rivales, compañeros y equipos compatibles con tu deporte, nivel y zona.</p>
+
+      <div class="pasosOnboarding">
+        <span>👤 Crea tu perfil</span>
+        <span>🛡️ Registra tu equipo</span>
+        <span>🔎 Encuentra tu Match</span>
+      </div>
+
+      <button id="onboardingPerfil" class="botonPrincipal">Crear mi perfil</button>
+      <button id="onboardingExplorar" class="botonSecundario">Explorar primero</button>
+    </div>
+  </div>
+
+  <nav class="navInferior">
+    <button class="navItem activo" data-pagina="inicio"><span>🏠</span>Inicio</button>
+    <button class="navItem" data-pagina="buscar"><span>🔎</span>Buscar</button>
+    <button class="navItem" data-pagina="actividad"><span>📊</span>Actividad</button>
+    <button class="navItem" data-pagina="equipos"><span>🛡️</span>Equipos</button>
+    <button class="navItem" data-pagina="perfil"><span>👤</span>Perfil</button>
+  </nav>
+</div>
+</body>
+</html>
